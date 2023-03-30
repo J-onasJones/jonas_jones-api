@@ -1,13 +1,11 @@
 {
-  "name": "jonas_jones-api",
+  "name": "jonasjones-api",
   "version": "1.0.0",
-  "description": "an api used for my website",
+  "description": "jonasjones api",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js --exec babel-node --presets babel-preset-env",
-    "lint": "eslint src/js",
-    "build": "react-scripts build"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -16,8 +14,8 @@
   "keywords": [
     "RESTful",
     "API",
-    "node",
-    "mongoDB"
+    "Node",
+    "MongoDB"
   ],
   "author": "Jonas_Jones",
   "license": "ISC",
@@ -26,30 +24,7 @@
   },
   "homepage": "https://github.com/j-onasJones/jonas_jones-api#readme",
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-loader": "^9.1.2",
-    "babel-preset-env": "^1.7.0",
-    "body-parser": "^1.20.1",
     "express": "^4.18.2",
-    "http": "^0.0.1-security",
-    "polyfills": "^2.1.1",
-    "react": "^18.2.0",
-    "react-scripts": "^5.0.1"
-  },
-  "devDependencies": {
-    "webpack-cli": "^5.0.1"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "mongoose": "^7.0.3"
   }
 }
