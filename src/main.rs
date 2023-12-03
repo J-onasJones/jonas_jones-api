@@ -15,4 +15,8 @@ async fn main() {
     warp::serve(routes)
         .run(([127, 0, 0, 1], 3030))
         .await;
+
+    warp::serve(routes)
+        .run(([192,168,0,55], 3030))
+        .await;
 }
