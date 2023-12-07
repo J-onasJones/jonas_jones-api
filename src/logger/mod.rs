@@ -43,7 +43,7 @@ impl Logger {
     }
 
     pub fn format_time(timestamp: u64) -> String {
-        let datetime = NaiveDateTime::from_timestamp(timestamp as i64, 0);
+        let datetime = NaiveDateTime::from_timestamp_millis((timestamp * 1000).try_into().unwrap()).unwrap();
         datetime.format("%H:%M:%S").to_string()
     }
 
@@ -62,10 +62,4 @@ impl Logger {
     pub fn panic(message: &str) {
         Self::log("PANIC", message);
     }
-}
-
-fn main() {
-    Logger::info("This is an informational log message.");
-    Logger::warn("This is a warning log message.");
-    Logger::error("This is an error log message.");
 }
