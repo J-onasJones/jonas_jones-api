@@ -1,11 +1,19 @@
-pub fn help() -> &'static str {
-    return "Please refer to the wiki at https://wiki.jonasjones.dev/Api/"
-}
+// pub fn help() -> warp::reply::Response {
 
-pub fn ping() -> &'static str {
-    return "pong"
-}
+//     return warp::reply::Reply::with_header(
+//         warp::reply::html(""),
+//         "Content-Type",
+//         "text/html",
+//     );
+// }
 
-pub fn version() -> &'static str {
-    return option_env!("CARGO_PKG_VERSION").unwrap_or("unknown")
+// create a function help() that returns a response with a ststus code of 200 and a body of "help"
+
+
+use warp::Filter;
+pub fn get_builtin_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+    warp::path("v1")
+        .and((warp::path("help").map(|| "help"))
+        .or(warp::path("ping").map(|| "pong"))
+        .or(warp::path("version").map(|| warp::reply::json(&[option_env!("CARGO_PKG_VERSION").unwrap_or("unknown")]))))
 }
