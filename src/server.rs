@@ -25,13 +25,13 @@ pub async fn serve() {
     
     async fn handle_rejection(err: warp::Rejection) -> Result<impl Reply, Infallible> {
         let (code, message) = if err.find::<InternalServerError>().is_some() {
-            (StatusCode::INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR")
+            (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error")
         } else if err.find::<BadRequestError>().is_some() {
-            (StatusCode::BAD_REQUEST, "BAD_REQUEST")
+            (StatusCode::BAD_REQUEST, "Bad Request")
         } else if err.is_not_found() || err.find::<NotFoundError>().is_some() {
-            (StatusCode::NOT_FOUND, "NOT_FOUND")
+            (StatusCode::NOT_FOUND, "Not Found")
         } else {
-            (StatusCode::INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR") // Default case
+            (StatusCode::INTERNAL_SERVER_ERROR, "Unhandled Rejection") // Default case
         };
 
         let json = warp::reply::json(&ErrorMessage {
