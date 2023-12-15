@@ -1,5 +1,3 @@
-use warp::Filter;
-
 mod mods;
 
 use mods::get_mods_paths;

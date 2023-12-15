@@ -1,4 +1,4 @@
-use warp::{Filter, filters::addr::remote};
+use warp::Filter;
 
 pub fn get_mods_paths() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     // any path that starts with /v1/updates/minecraft/mods/{modname}/{loadername}/{version} calls handle_path
