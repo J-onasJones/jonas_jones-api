@@ -4,6 +4,7 @@ pub mod v1;
 pub mod logger;
 pub mod tools;
 pub mod server;
+pub mod error_responses;
 
 pub use logger::Logger;
 pub use tools::parse_ip;
