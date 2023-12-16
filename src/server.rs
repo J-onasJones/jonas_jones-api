@@ -18,8 +18,10 @@ pub async fn serve() {
 
     let socket_addr = parse_ip();
 
+    let favicon = warp::path("favicon.ico").and(warp::fs::file("./src/favicon.png"));
+
     // GET (any) => reply with return from handle_path
-    let routes = get_v1_routes()
+    let routes = favicon.or(get_v1_routes())
         .recover(handle_rejection);
 
     
