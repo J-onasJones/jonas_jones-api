@@ -24,7 +24,7 @@ $ cargo run
 If you want to run the API in a production environment, you will need to set the following environment variables.
 
 - API_PORT
-- API_IP =
+- API_IP
 - LASTFM_API_KEY
 - LASTFM_API_SECRET
 
