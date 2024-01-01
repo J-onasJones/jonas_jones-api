@@ -26,3 +26,7 @@ impl warp::reject::Reject for UnauthorizedError {}
 pub struct ForbiddenError;
 impl warp::reject::Reject for ForbiddenError {}
 
+#[derive(Debug)]
+pub struct NotImplementedError;
+impl warp::reject::Reject for NotImplementedError {}
+
