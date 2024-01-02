@@ -2,7 +2,7 @@ use std::{collections::HashMap, ops::Add};
 
 use warp::Filter;
 
-use crate::{v1::kcomebacks::filter::filter_daterange_handler, error_responses::BadRequestError};
+use crate::v1::kcomebacks::filter::filter_daterange_handler;
 
 pub fn get_kcomebacks_upcoming_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path("upcoming")

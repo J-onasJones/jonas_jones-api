@@ -1,10 +1,9 @@
-use std::{collections::{HashMap, HashSet}, vec};
+use std::collections::HashMap;
 
-use reqwest::StatusCode;
 use serde_json::{Value, json};
 use warp::Filter;
 
-use crate::{error_responses::{BadRequestError, InternalServerError, NotImplementedError}, v1::projects::{fetch_data, create_json_response, Project as EntryProject}};
+use crate::{error_responses::{BadRequestError, NotImplementedError}, v1::projects::{fetch_data, create_json_response, Project as EntryProject}};
 
 pub fn get_project_filter_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path("filter")
@@ -452,16 +451,16 @@ async fn filter_getlangs_handler() -> Result<impl warp::Reply, warp::Rejection> 
     let data = fetch_data().await.unwrap();
 
     // filter the data
-    let filtered_data: Vec<EntryProject> = match data {
-        Value::Array(items) => {
-            items
-                .iter()
-                .filter_map(|item| serde_json::from_value::<EntryProject>(item.clone()).ok())
-                .filter(|project| project.visible)
-                .collect()
-        }
-        _ => Vec::new(),
-    };
+    // let filtered_data: Vec<EntryProject> = match data {
+    //     Value::Array(items) => {
+    //         items
+    //             .iter()
+    //             .filter_map(|item| serde_json::from_value::<EntryProject>(item.clone()).ok())
+    //             .filter(|project| project.visible)
+    //             .collect()
+    //     }
+    //     _ => Vec::new(),
+    // };
 
     // filter the data
     /*let all_language_keys: Vec<&String> = filtered_data

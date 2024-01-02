@@ -73,11 +73,3 @@ pub fn create_json_response(items: Vec<&Project>, total_results: usize) -> Value
 
     json_response
 }
-
-pub fn parse_item(item: &Value) -> Project {
-    // Parse the item into a struct
-    let item: Project = serde_json::from_value(item.clone()).unwrap();
-
-    // Return the parsed item
-    item
-}

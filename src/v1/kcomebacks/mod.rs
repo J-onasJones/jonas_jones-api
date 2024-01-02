@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use warp::Filter;
@@ -10,7 +8,7 @@ mod upcoming;
 
 use filter::get_kcomebacks_filter_routes;
 use upcoming::get_kcomebacks_upcoming_routes;
-use crate::error_responses::{InternalServerError, BadRequestError, NotFoundError};
+use crate::error_responses::InternalServerError;
 
 pub fn get_kcomebacks_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path("v1").and(warp::path("kcomebacks"))
