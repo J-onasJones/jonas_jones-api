@@ -323,8 +323,6 @@ async fn filter_type_handler(params: HashMap<String, String>) -> Result<impl war
 }
 
 async fn filter_gettypes_handler() -> Result<impl warp::Reply, warp::Rejection> {
-    println!("Received parameters - parameters: gettypes");
-
     // fetch the data
     let data = fetch_data().await.unwrap();
 
