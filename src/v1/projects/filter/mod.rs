@@ -3,7 +3,7 @@ use std::collections::{HashMap, HashSet};
 use serde_json::{Value, json};
 use warp::Filter;
 
-use crate::{error_responses::{BadRequestError, NotImplementedError}, v1::projects::{fetch_data, create_json_response, Project as EntryProject}};
+use crate::{error_responses::BadRequestError, v1::projects::{fetch_data, create_json_response, Project as EntryProject}};
 
 pub fn get_project_filter_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path("filter")
