@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use serde_json::{Value, json};
 use warp::Filter;
@@ -398,8 +398,6 @@ async fn filter_category_handler(params: HashMap<String, String>)  -> Result<imp
 }
 
 async fn filter_language_handler(params: HashMap<String, String>) -> Result<impl warp::Reply, warp::Rejection> {
-    return Err(warp::reject::custom(NotImplementedError));
-    return Ok(warp::reply::html("placeholder for compiler to be happy"));
     // Access the parameres from the HashMap
     let language = params.get("language").unwrap_or(&"".to_string()).to_string();
     let limit = params.get("limit").unwrap_or(&"".to_string()).to_string();
@@ -428,7 +426,7 @@ async fn filter_language_handler(params: HashMap<String, String>) -> Result<impl
                 .iter()
                 .filter_map(|item| serde_json::from_value::<EntryProject>(item.clone()).ok())
                 .filter(|project| project.visible)
-                //.filter(|project| project.languages.iter().any(|lang| lang.contains_key(language)))
+                .filter(|project| project.languages.contains_key(&language))
                 .collect()
         }
         _ => Vec::new(),
@@ -441,38 +439,45 @@ async fn filter_language_handler(params: HashMap<String, String>) -> Result<impl
     let filtered_data = filtered_data.iter().skip(offset.parse::<usize>().unwrap()).take(limit.parse::<usize>().unwrap()).collect::<Vec<_>>();
 
     // return the data
-    //Ok(warp::reply::json(&create_json_response(filtered_data, total_results)))
+    Ok(warp::reply::json(&create_json_response(filtered_data, total_results)))
 }
 
 async fn filter_getlangs_handler() -> Result<impl warp::Reply, warp::Rejection> {
-    return Err(warp::reject::custom(NotImplementedError));
-    return Ok(warp::reply::html("placeholder for compiler to be happy"));
     // fetch the data
     let data = fetch_data().await.unwrap();
 
-    // filter the data
-    // let filtered_data: Vec<EntryProject> = match data {
-    //     Value::Array(items) => {
-    //         items
-    //             .iter()
-    //             .filter_map(|item| serde_json::from_value::<EntryProject>(item.clone()).ok())
-    //             .filter(|project| project.visible)
-    //             .collect()
-    //     }
-    //     _ => Vec::new(),
-    // };
+    //filter the data
+    let filtered_data: Vec<EntryProject> = match data {
+        Value::Array(items) => {
+            items
+                .iter()
+                .filter_map(|item| serde_json::from_value::<EntryProject>(item.clone()).ok())
+                .filter(|project| project.visible)
+                .collect()
+        }
+        _ => Vec::new(),
+    };
 
     // filter the data
-    /*let all_language_keys: Vec<&String> = filtered_data
-        .iter()
-        .flat_map(|project| project.languages.iter().flat_map(|lang_map| lang_map.keys()))
-        .collect();*/
+    let mut languages_set: HashSet<String> = HashSet::new();
+
+    for project in filtered_data {
+        for language in project.languages.keys() {
+            languages_set.insert(language.clone());
+        }
+    }
 
     // get the total number of results
-    //let total_results = all_language_keys.len();
+    let total_results = languages_set.len();
+
+    // json response
+    let json_response = json!({
+        "results": languages_set,
+        "total_results": total_results,
+    });
 
     // return the data
-    //Ok(warp::reply::json(&create_json_response(all_language_keys, total_results)))
+    Ok(warp::reply::json(&json_response))
 }
 
 async fn filter_getstatuses_handler() -> Result<impl warp::Reply, warp::Rejection> {
