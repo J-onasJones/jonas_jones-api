@@ -10,7 +10,7 @@ use filter::get_kcomebacks_filter_routes;
 use upcoming::get_kcomebacks_upcoming_routes;
 use crate::error_responses::InternalServerError;
 
-pub fn get_kcomebacks_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+pub fn get_kcomebacks_routes() -> impl warp::Filter<Extract = impl warp::Reply + warp::generic::Tuple, Error = warp::Rejection> + Clone {
     warp::path("v1").and(warp::path("kcomebacks"))
 
         .and(warp::path("last_update").and(warp::get()).and_then(last_update)

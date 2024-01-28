@@ -10,12 +10,13 @@ use filter::get_project_filter_routes;
 
 use crate::error_responses::InternalServerError;
 
-pub fn get_project_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+pub fn get_project_routes() -> impl warp::Filter<Extract = impl warp::Reply + warp::generic::Tuple, Error = warp::Rejection> + Clone {
     warp::path("v1").and(warp::path("projects"))
 
         .and(warp::path("last_update").and(warp::get()).and_then(last_update)
         .or(warp::path("start_update").map(|| "Not implemented yet"))
-        .or(get_project_filter_routes()))
+        .or(get_project_filter_routes())
+        )
 }
 
 // get json data from https://https://cdn.jonasjones.dev/api/projects/projects.json

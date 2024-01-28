@@ -5,7 +5,7 @@ use warp::Filter;
 
 use crate::{error_responses::BadRequestError, v1::projects::{fetch_data, create_json_response, Project as EntryProject}};
 
-pub fn get_project_filter_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
+pub fn get_project_filter_routes() -> impl warp::Filter<Extract = impl warp::Reply + warp::generic::Tuple, Error = warp::Rejection> + Clone {
     warp::path("filter")
         .and((warp::path("getall").and(warp::get()).and(warp::query::<HashMap<String, String>>()).and_then(filter_getall_handler))
         .or(warp::path("lastupdaterange").and(warp::get()).and(warp::query::<HashMap<String, String>>()).and_then(filter_lastupdaterange_handler))
