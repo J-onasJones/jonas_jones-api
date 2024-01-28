@@ -10,7 +10,7 @@ use filter::get_project_filter_routes;
 
 use crate::error_responses::InternalServerError;
 
-pub fn get_project_routes() -> impl warp::Filter<Extract = impl warp::Reply + warp::generic::Tuple, Error = warp::Rejection> + Clone {
+pub fn get_project_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path("v1").and(warp::path("projects"))
 
         .and(warp::path("last_update").and(warp::get()).and_then(last_update)

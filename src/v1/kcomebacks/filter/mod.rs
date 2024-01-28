@@ -6,7 +6,7 @@ use warp::Filter;
 
 use crate::{error_responses::{BadRequestError, InternalServerError}, v1::kcomebacks::{fetch_data, create_json_response, parse_item, Item as EntryItem}};
 
-pub fn get_kcomebacks_filter_routes() -> impl warp::Filter<Extract = impl warp::Reply + warp::generic::Tuple, Error = warp::Rejection> + Clone {
+pub fn get_kcomebacks_filter_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path("filter")
         .and((warp::path("id").and(warp::get()).and(warp::query::<HashMap<String, String>>()).and_then(filter_id_handler))
         .or(warp::path("getall").and(warp::get()).and(warp::query::<HashMap<String, String>>()).and_then(filter_getall_handler))

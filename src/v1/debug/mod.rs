@@ -1,6 +1,6 @@
 use warp::Filter;
 
-pub fn get_debug_routes() -> impl warp::Filter<Extract = impl warp::Reply + warp::generic::Tuple, Error = warp::Rejection> + Clone {
+pub fn get_debug_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path("debug")
         .and(warp::path("headers").and(warp::header::headers_cloned().map(handle_with_headers)))
 }

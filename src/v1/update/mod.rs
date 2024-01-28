@@ -16,7 +16,7 @@ pub struct DiscographyQuery {
     artists: String,
 }
 
-pub fn get_update_routes() -> impl warp::Filter<Extract = impl warp::Reply + warp::generic::Tuple, Error = warp::Rejection> + Clone {
+pub fn get_update_routes() -> impl warp::Filter<Extract = impl warp::Reply, Error = warp::Rejection> + Clone {
     warp::path("v1").and(warp::path("update"))
         // update/kcomebacks
         // update/projects
