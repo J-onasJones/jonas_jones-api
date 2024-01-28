@@ -161,11 +161,12 @@ fn run_kcomebacks_command() -> Result<(), std::io::Error> {
         child.wait().unwrap();
     });
 
-    task::spawn(async move {
-        while let Some(line) = rx.recv().await {
-            Logger::info(&format!("[/v1/kcomebacks/update]: {}", line));
-        }
-    });
+    // task::spawn(async move {
+    //     while let Some(line) = rx.recv().await {
+    //         Logger::info(&format!("[/v1/kcomebacks/update]: {}", line));
+    //     }
+    // });
+    Logger::info("kcomebacks updated");
 
     Ok(())
 }
@@ -200,11 +201,12 @@ fn run_projects_command() -> Result<(), std::io::Error> {
         child.wait().unwrap();
     });
 
-    task::spawn(async move {
-        while let Some(line) = rx.recv().await {
-            Logger::info(&format!("[/v1/projects/update]: {}", line));
-        }
-    });
+    // task::spawn(async move {
+    //     while let Some(line) = rx.recv().await {
+    //         Logger::info(&format!("[/v1/projects/update]: {}", line));
+    //     }
+    // });
+    Logger::info("projects updated");
 
     Ok(())
 }
@@ -238,11 +240,12 @@ fn run_likedsongs_command() -> Result<(), std::io::Error> {
         child.wait().unwrap();
     });
 
-    task::spawn(async move {
-        while let Some(line) = rx.recv().await {
-            Logger::info(&format!("[/v1/synclikedsongs]: {}", line));
-        }
-    });
+    // task::spawn(async move {
+    //     while let Some(line) = rx.recv().await {
+    //         Logger::info(&format!("[/v1/synclikedsongs]: {}", line));
+    //     }
+    // });
+    Logger::info("liked songs synced");
 
     Ok(())
 }
