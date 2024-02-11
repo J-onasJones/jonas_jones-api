@@ -20,9 +20,13 @@ pub async fn serve() {
 
     let favicon = warp::path("favicon.ico").and(warp::fs::file("./src/favicon.png"));
 
+    // /status => 200 OK
+    let status = warp::path("status")
+        .map(|| warp::reply());
+
     // GET (any) => reply with return from handle_path
-    let routes = favicon.or(get_v1_routes())
-        .recover(handle_rejection);
+    let routes = favicon.or(status.or(get_v1_routes())
+        .recover(handle_rejection));
 
 
     async fn handle_rejection(err: warp::Rejection) -> Result<impl Reply, Infallible> {
