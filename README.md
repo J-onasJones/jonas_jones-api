@@ -34,3 +34,24 @@ export API_IP={ip_address}
 export LASTFM_API_KEY={lastfm_api_key}
 export LASTFM_API_SECRET={lastfm_api_secret}
 ```
+
+## Docker Compose
+
+`docker-compose.yaml`:
+```yaml
+version: '3.8'
+services:
+  arch-linux:
+    image: archlinux:latest
+    container_name: jonas_jones-api
+    ports:
+      - "3030:3030"
+    volumes:
+      - /home/jonas_jones/jonas_jones-api:/home/jonas_jones/jonas_jones-api
+    command: ["sh", "-c", "pacman -Syu --noconfirm --needed pkg-config openssl cargo && cd /home/jonas_jones/jonas_jones-api && /usr/bin/cargo run"]
+```
+
+run container:
+```sh
+docker-compose up -d
+```
