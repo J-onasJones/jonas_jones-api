@@ -166,7 +166,7 @@ pub fn run_kcomebacks_command() -> Result<(), std::io::Error> {
     //         Logger::info(&format!("[/v1/kcomebacks/update]: {}", line));
     //     }
     // });
-    Logger::info("kcomebacks updated");
+    Logger::info("Updating kcomebacks...");
 
     Ok(())
 }
@@ -206,7 +206,7 @@ pub fn run_projects_command() -> Result<(), std::io::Error> {
     //         Logger::info(&format!("[/v1/projects/update]: {}", line));
     //     }
     // });
-    Logger::info("projects updated");
+    Logger::info("Updating projects...");
 
     Ok(())
 }
@@ -245,7 +245,7 @@ pub fn run_likedsongs_command() -> Result<(), std::io::Error> {
     //         Logger::info(&format!("[/v1/synclikedsongs]: {}", line));
     //     }
     // });
-    Logger::info("liked songs synced");
+    Logger::info("Syncing liked songs...");
 
     Ok(())
 }
