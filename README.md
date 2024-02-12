@@ -48,7 +48,7 @@ services:
       - "3030:3030"
     volumes:
       - /home/jonas_jones/jonas_jones-api:/home/jonas_jones/jonas_jones-api
-    command: ["sh", "-c", "pacman -Syu --noconfirm --needed pkg-config openssl cargo && cd /home/jonas_jones/jonas_jones-api && /usr/bin/cargo run"]
+    command: ["sh", "-c", "pacman -Syu --noconfirm --needed pkg-config openssl python3 python-pip cargo && pip install -r requirements.txt && cd /home/jonas_jones/jonas_jones-api && /usr/bin/cargo run"]
 ```
 
 run container:
