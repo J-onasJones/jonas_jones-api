@@ -37,7 +37,7 @@ export LASTFM_API_SECRET={lastfm_api_secret}
 
 ## Docker Compose
 
-`docker-compose.yaml`:
+`docker-compose.yaml` (folder paths need adjusting):
 ```yaml
 version: '3.8'
 services:
@@ -48,7 +48,8 @@ services:
       - "3030:3030"
     volumes:
       - /home/jonas_jones/jonas_jones-api:/home/jonas_jones/jonas_jones-api
-    command: ["sh", "-c", "pacman -Syu --noconfirm --needed pkg-config openssl python3 python-pip cargo && pip install -r requirements.txt && cd /home/jonas_jones/jonas_jones-api && /usr/bin/cargo run"]
+      - /home/jonas_jones/.config/rclone/:/root/.config/rclone/
+    command: ["sh", "-c", "pacman -Syu --noconfirm --needed pkg-config openssl python3 python-pip rclone cargo && python3 -m venv api-venv && source api-venv/bin/activate && cd /home/jonas_jones/jonas_jones-api && pip install -r requirements.txt && /usr/bin/cargo run"]
 ```
 
 run container:
