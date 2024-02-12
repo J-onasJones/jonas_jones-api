@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  arch-linux:
+    image: archlinux:latest
+    container_name: jonas_jones-api
+    ports:
+      - "3030:3030"
+    volumes:
+      - /home/jonas_jones/jonas_jones-api:/home/jonas_jones/jonas_jones-api
+      - /home/jonas_jones/.config/rclone/:/root/.config/rclone/
+    command: ["sh", "-c", "pacman -Syu --noconfirm --needed pkg-config openssl python3 python-pip rclone cargo && python3 -m venv api-venv && source api-venv/bin/activate && cd /home/jonas_jones/jonas_jones-api && pip install -r requirements.txt && /usr/bin/cargo run"]
