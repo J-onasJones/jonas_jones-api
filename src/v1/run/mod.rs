@@ -1,10 +1,10 @@
 use std::fs;
-use std::io::BufRead;
+// use std::io::BufRead;
 use std::process::{Stdio, Command};
 
 use serde::{Deserialize, Serialize};
 use serde_json::json;
-use tokio::sync::mpsc;
+// use tokio::sync::mpsc;
 use tokio::task;
 use warp::Filter;
 use crate::error_responses::InternalServerError;
@@ -80,7 +80,7 @@ async fn sync_liked_songs() -> Result<impl warp::Reply, warp::Rejection> {
 
 }
 
-fn setup() -> Result<(), git2::Error> {
+pub fn setup() -> Result<(), git2::Error> {
     let repository_url = "https://github.com/JonasunderscoreJones/turbo-octo-potato.git";
     let local_directory = "resources/turbo_octo_potato";
 
@@ -131,8 +131,8 @@ fn setup() -> Result<(), git2::Error> {
 // run_command with python file and args as parameters
 
 
-fn run_kcomebacks_command() -> Result<(), std::io::Error> {
-    let (tx, mut rx) = mpsc::channel(1);
+pub fn run_kcomebacks_command() -> Result<(), std::io::Error> {
+    // let (tx, mut rx) = mpsc::channel(1);
 
     task::spawn_blocking(move || {
         let mut child = Command::new("python3")
@@ -143,20 +143,20 @@ fn run_kcomebacks_command() -> Result<(), std::io::Error> {
             .spawn()
             .expect("failed to execute child");
 
-        let stdout = child.stdout.as_mut().unwrap();
+        // let stdout = child.stdout.as_mut().unwrap();
 
-        let mut reader = std::io::BufReader::new(stdout);
+        // let mut reader = std::io::BufReader::new(stdout);
 
-        let mut line = String::new();
+        // let mut line = String::new();
 
-        loop {
-            let len = reader.read_line(&mut line).unwrap();
-            if len == 0 {
-                break;
-            }
-            tx.blocking_send(line.clone()).unwrap();
-            line.clear();
-        }
+        // loop {
+        //     let len = reader.read_line(&mut line).unwrap();
+        //     if len == 0 {
+        //         break;
+        //     }
+        //     tx.blocking_send(line.clone()).unwrap();
+        //     line.clear();
+        // }
 
         child.wait().unwrap();
     });
@@ -171,8 +171,8 @@ fn run_kcomebacks_command() -> Result<(), std::io::Error> {
     Ok(())
 }
 
-fn run_projects_command() -> Result<(), std::io::Error> {
-    let (tx, mut rx) = mpsc::channel(1);
+pub fn run_projects_command() -> Result<(), std::io::Error> {
+    // let (tx, mut rx) = mpsc::channel(1);
 
     task::spawn_blocking(move || {
         let mut child = Command::new("python3")
@@ -183,20 +183,20 @@ fn run_projects_command() -> Result<(), std::io::Error> {
             .spawn()
             .expect("failed to execute child");
 
-        let stdout = child.stdout.as_mut().unwrap();
+        // let stdout = child.stdout.as_mut().unwrap();
 
-        let mut reader = std::io::BufReader::new(stdout);
+        // let mut reader = std::io::BufReader::new(stdout);
 
-        let mut line = String::new();
+        // let mut line = String::new();
 
-        loop {
-            let len = reader.read_line(&mut line).unwrap();
-            if len == 0 {
-                break;
-            }
-            tx.blocking_send(line.clone()).unwrap();
-            line.clear();
-        }
+        // loop {
+        //     let len = reader.read_line(&mut line).unwrap();
+        //     if len == 0 {
+        //         break;
+        //     }
+        //     tx.blocking_send(line.clone()).unwrap();
+        //     line.clear();
+        // }
 
         child.wait().unwrap();
     });
@@ -211,8 +211,8 @@ fn run_projects_command() -> Result<(), std::io::Error> {
     Ok(())
 }
 
-fn run_likedsongs_command() -> Result<(), std::io::Error> {
-    let (tx, mut rx) = mpsc::channel(1);
+pub fn run_likedsongs_command() -> Result<(), std::io::Error> {
+    // let (tx, mut rx) = mpsc::channel(1);
 
     task::spawn_blocking(move || {
         let mut child = Command::new("python3")
@@ -222,20 +222,20 @@ fn run_likedsongs_command() -> Result<(), std::io::Error> {
             .spawn()
             .expect("failed to execute child");
 
-        let stdout = child.stdout.as_mut().unwrap();
+        // let stdout = child.stdout.as_mut().unwrap();
 
-        let mut reader = std::io::BufReader::new(stdout);
+        // let mut reader = std::io::BufReader::new(stdout);
 
-        let mut line = String::new();
+        // let mut line = String::new();
 
-        loop {
-            let len = reader.read_line(&mut line).unwrap();
-            if len == 0 {
-                break;
-            }
-            tx.blocking_send(line.clone()).unwrap();
-            line.clear();
-        }
+        // loop {
+        //     let len = reader.read_line(&mut line).unwrap();
+        //     if len == 0 {
+        //         break;
+        //     }
+        //     tx.blocking_send(line.clone()).unwrap();
+        //     line.clear();
+        // }
 
         child.wait().unwrap();
     });
