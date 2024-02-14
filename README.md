@@ -56,3 +56,12 @@ run container:
 ```sh
 docker-compose up -d
 ```
+
+## Roadmap
+
+- analytics backend. track request origin through IP from header (store IP hash, region and time)
+- rewrite all scripts in rust
+- DB implementation for projects, kcomebacks, minecraft mod versions
+- session backend, auth token system
+- implementation for dashboard front-end with analytics/config
+- complete minecraft mod implementation
