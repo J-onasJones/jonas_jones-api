@@ -27,12 +27,22 @@ If you want to run the API in a production environment, you will need to set the
 - API_IP
 - LASTFM_API_KEY
 - LASTFM_API_SECRET
+- DB_URL
+- DB_PORT
+- DB_NAME
+- DB_USER
+- DB_PASS
 
 ```bash
 export API_PORT={port}
 export API_IP={ip_address}
 export LASTFM_API_KEY={lastfm_api_key}
 export LASTFM_API_SECRET={lastfm_api_secret}
+export DB_URL = "{db_url}"
+export DB_PORT = {db_port}
+export DB_NAME = "{db_name}"
+export DB_USER = "{db_user}"
+export DB_PASS = "db_password"
 ```
 
 ## Docker Compose
