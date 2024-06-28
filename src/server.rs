@@ -37,7 +37,7 @@ pub async fn serve() {
             let client_ip = fwd_for.unwrap_or_else(|| addr.map(|a| a.ip().to_string()).unwrap_or_else(|| String::from("unknown")));
             let path_str = path.as_str();
 
-            Logger::info(&format!(" {} {} from {}", method, path_str, ip_lookup(&client_ip)));
+            Logger::info(&format!(" {} {} from {} ({})", method, path_str, ip_lookup(&client_ip), client_ip));
         });
 
     // GET (any) => reply with return from handle_path
