@@ -1,13 +1,16 @@
 use std::convert::Infallible;
+use std::net::SocketAddr;
 use std::env;
 
-use reqwest::StatusCode;
+use lastfm::reqwest::StatusCode;
+use warp::filters::path::FullPath;
 use warp::Filter;
 use warp::reply::Reply;
 
 use crate::error_responses::{ErrorMessage, InternalServerError, BadRequestError, NotFoundError, NotImplementedError};
 use crate::v1::get_v1_routes;
-use crate::{Logger, parse_ip};
+use crate::{parse_ip, request_logger, Logger};
+use crate::iplookup::ip_lookup;
 
 
 pub async fn serve() {
@@ -24,9 +27,24 @@ pub async fn serve() {
     let status = warp::path("status")
         .map(|| warp::reply());
 
+    // Middleware filter to log request details
+    let log_request = warp::any()
+        .and(warp::method())
+        .and(warp::path::full())
+        .and(warp::addr::remote())
+        .and(warp::header::optional::<String>("x-forwarded-for"))
+        .map(|method, path: FullPath, addr: Option<SocketAddr>, fwd_for: Option<String>| {
+            let client_ip = fwd_for.unwrap_or_else(|| addr.map(|a| a.ip().to_string()).unwrap_or_else(|| String::from("unknown")));
+            let path_str = path.as_str();
+
+            request_logger::log_request(&client_ip, path_str, method, "requests.json");
+            Logger::info(&format!(" {} {} from {} ({})", method, path_str, ip_lookup(&client_ip), client_ip));
+        });
+
     // GET (any) => reply with return from handle_path
-    let routes = favicon.or(status.or(get_v1_routes())
-        .recover(handle_rejection));
+    let routes = log_request
+    .clone().untuple_one().and(favicon.or(status.or(get_v1_routes())
+        .recover(handle_rejection)));
 
 
     async fn handle_rejection(err: warp::Rejection) -> Result<impl Reply, Infallible> {
@@ -47,7 +65,7 @@ pub async fn serve() {
             message: message.into(),
         });
 
-        Ok(warp::reply::with_status(json, code))
+        Ok(warp::reply::with_status(json, StatusCode::from_u16(code.as_u16()).unwrap()))
     }
 
 
