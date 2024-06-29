@@ -4,8 +4,11 @@ use std::env;
 
 use lastfm::reqwest::StatusCode;
 use warp::filters::path::FullPath;
+use warp::http::Method;
 use warp::Filter;
 use warp::reply::Reply;
+
+use reqwest::Client;
 
 use crate::error_responses::{ErrorMessage, InternalServerError, BadRequestError, NotFoundError, NotImplementedError};
 use crate::v1::get_v1_routes;
@@ -33,12 +36,22 @@ pub async fn serve() {
         .and(warp::path::full())
         .and(warp::addr::remote())
         .and(warp::header::optional::<String>("x-forwarded-for"))
-        .map(|method, path: FullPath, addr: Option<SocketAddr>, fwd_for: Option<String>| {
+        .map(|method: Method, path: FullPath, addr: Option<SocketAddr>, fwd_for: Option<String>| {
             let client_ip = fwd_for.unwrap_or_else(|| addr.map(|a| a.ip().to_string()).unwrap_or_else(|| String::from("unknown")));
-            let path_str = path.as_str();
+            let path_str = path.as_str().to_string(); // Convert to owned String
+            let method_clone = method.clone();
+            let method_str = method_clone.clone().as_str().to_string();
+            let client_ip_clone = client_ip.clone(); // Clone for use outside the async block
+            let path_str_clone = path_str.clone();
 
-            request_logger::log_request(&client_ip, path_str, method, "requests.json");
-            Logger::info(&format!(" {} {} from {} ({})", method, path_str, ip_lookup(&client_ip), client_ip));
+            /*tokio::spawn(async move {
+                let client = Client::new();
+                if let Err(e) = request_logger::log_request(&client, &client_ip, &path_str, &method_clone, "requests.json").await {
+                    eprintln!("Failed to log request: {:?}", e);
+                }
+            });*/
+
+            Logger::info(&format!("{} {} from {} ({})", method_str, path_str_clone, ip_lookup(&client_ip_clone), client_ip_clone));
         });
 
     // GET (any) => reply with return from handle_path
