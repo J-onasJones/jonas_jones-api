@@ -9,7 +9,7 @@ use warp::reply::Reply;
 
 use crate::error_responses::{ErrorMessage, InternalServerError, BadRequestError, NotFoundError, NotImplementedError};
 use crate::v1::get_v1_routes;
-use crate::{Logger, parse_ip};
+use crate::{parse_ip, request_logger, Logger};
 use crate::iplookup::ip_lookup;
 
 
@@ -37,6 +37,7 @@ pub async fn serve() {
             let client_ip = fwd_for.unwrap_or_else(|| addr.map(|a| a.ip().to_string()).unwrap_or_else(|| String::from("unknown")));
             let path_str = path.as_str();
 
+            request_logger::log_request(&client_ip, path_str, method, "requests.json");
             Logger::info(&format!(" {} {} from {} ({})", method, path_str, ip_lookup(&client_ip), client_ip));
         });
 
